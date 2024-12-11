@@ -1,7 +1,29 @@
+import { useState } from "react"
 import { categories } from "../data/categories"
+import { Activity } from "../types"
 
 export default function Form() {
-  return (
+
+  const [activity, setActivity] = useState<Activity>({
+    category: 1,
+    name: '',
+    calories: ''
+  })
+
+  const handleChange = (e:React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLInputElement>) => {
+    const isNumberField = ['category', 'calories'].includes(e.target.id)
+
+    setActivity({
+      ...activity,
+      [e.target.id]: isNumberField ? +e.target.value : e.target.value
+
+      // e.target indica el elemento que se está modificando
+
+    })
+  }
+
+
+    return (
     <form action=""
     className="space-y-5 bg-white shadow-md p-10 rounded-lg"
     >
@@ -11,6 +33,8 @@ export default function Form() {
           name=""
           className="border border-slate-300 p-2 rounded-lg w-full bg-white pr-3"
           id="category"
+          value={activity.category}
+          onChange={handleChange}
          >
 
           {categories.map(categorie => (
@@ -27,11 +51,13 @@ export default function Form() {
       </div>
 
       <div className="grid grid-cols-1 gap-3">
-        <label className="text-lg font-semibold" htmlFor="activity"> Actividad: </label>
+        <label className="text-lg font-semibold" htmlFor="name"> Actividad: </label>
         <input type="text"
-        id="activity"
+        id="name"
         className="border border-slate-300 p-2 rounded-lg w-full bg-white pr-3"
         placeholder="Ej. Comida, jugo de naranja, Pesas, Bicicleta"
+        value={activity.name}
+        onChange={handleChange}
         
         />
 
@@ -40,11 +66,14 @@ export default function Form() {
 
 
       <div className="grid grid-cols-1 gap-3">
-        <label className="text-lg font-semibold" htmlFor="calorias"> Calorias: </label>
+        <label className="text-lg font-semibold" htmlFor="calories"> Calorias: </label>
         <input type="number"
-        id="calorias"
+        id="calories"
         className="border border-slate-300 p-2 rounded-lg w-full bg-white pr-3"
         placeholder="Ej. 300 o 500"
+        value={activity.calories}
+        onChange={handleChange}
+
         />
       </div>
 
