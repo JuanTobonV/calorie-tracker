@@ -7,14 +7,14 @@ export type ActivityActions =
     } 
     | { type: 'set-activeId', payload: {id:Activity['id']} }
 
-type ActivityState = {
+export type ActivityState = {
     activities: Activity[]
-    activeID: Activity['id']
+    activeId: Activity['id']
 }
 
 export const initialState: ActivityState = {
     activities: [],
-    activeID: ""
+    activeId: ""
 }
 
 export const activityReducer = (
