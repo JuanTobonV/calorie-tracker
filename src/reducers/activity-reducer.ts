@@ -1,16 +1,20 @@
 import { Activity } from "../types"
 
-export type ActivityActions = {
+export type ActivityActions = 
+    {
     type: 'save-activity' /*Describe qué está sucediendo, referencia */
     payload: {newActivity:Activity}/*Datos que se van a agregar al state cuando el user haga algo */
-}
+    } 
+    | { type: 'set-activeId', payload: {id:Activity['id']} }
 
 type ActivityState = {
     activities: Activity[]
+    activeID: Activity['id']
 }
 
 export const initialState: ActivityState = {
-    activities: []
+    activities: [],
+    activeID: ""
 }
 
 export const activityReducer = (
@@ -28,6 +32,13 @@ export const activityReducer = (
                 ...state, /*Ya que si agregamos otros initial state, queremos esa persistencia de todos */
                 activities: [...state.activities, action.payload.newActivity]  // Actualiza la propiedad `activities` con una nueva lista que incluye `newActivity`
             }   
+        }
+
+        if(action.type === "set-activeId"){
+            return{
+                ...state,
+                activeId:action.payload.id
+            }
         }
 
         return state
